@@ -1,0 +1,43 @@
+[project]
+name = "ai-web-chatbot"
+version = "1.0.0"
+description = "Production-ready streaming AI chatbot built with Flask and the Groq LLM API."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "dimitris528" }]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+filterwarnings = ["error"]
+
+[tool.coverage.run]
+source = ["chatbot"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+fail_under = 90
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "UP", "SIM", "RUF", "S", "C4", "PT", "RET"]
+ignore = ["E501"]  # long lines are handled by the formatter where possible
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S105", "S106", "SLF001"]
+"gunicorn.conf.py" = ["S104"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unreachable = true
+files = ["chatbot", "tests", "wsgi.py"]
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_decorators = false
