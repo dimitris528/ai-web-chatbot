@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>AI Chat Assistant</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Ccircle cx='11' cy='15' r='2.5' fill='white'/%3E%3Ccircle cx='21' cy='15' r='2.5' fill='white'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div>
+          <h1>AI Chat Assistant</h1>
+          <p class="model" id="modelName"><span class="skeleton skeleton-text"></span></p>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-ghost" id="settingsBtn" aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+          <span>System prompt</span>
+        </button>
+        <button type="button" class="btn btn-ghost" id="clearBtn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>
+          <span>Clear chat</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="chat" id="chat" aria-live="polite" aria-busy="true">
+      <div class="history-skeleton" id="historySkeleton" aria-hidden="true">
+        <div class="skeleton skeleton-bubble right"></div>
+        <div class="skeleton skeleton-bubble"></div>
+        <div class="skeleton skeleton-bubble short"></div>
+      </div>
+      <section class="empty-state" id="emptyState" hidden>
+        <h2>How can I help today?</h2>
+        <p>Answers stream in real time. Your conversation stays in this browser session.</p>
+        <div class="suggestions">
+          <button type="button" class="chip">Explain retrieval-augmented generation in simple terms</button>
+          <button type="button" class="chip">Draft a polite follow-up email to a client</button>
+          <button type="button" class="chip">Write a Python function that retries an HTTP call with backoff</button>
+        </div>
+      </section>
+      <ol class="messages" id="messages"></ol>
+    </main>
+
+    <footer class="composer-wrap">
+      <form class="composer" id="composer" autocomplete="off">
+        <label for="input" class="visually-hidden">Message</label>
+        <textarea id="input" rows="1" placeholder="Message the assistant…" required></textarea>
+        <button type="submit" class="btn btn-primary send" id="sendBtn" aria-label="Send message">
+          <svg class="icon-send" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+          <svg class="icon-stop" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.5"/></svg>
+        </button>
+      </form>
+      <p class="hint"><kbd>Enter</kbd> to send · <kbd>Shift</kbd>+<kbd>Enter</kbd> for a new line · <span id="charCount"></span></p>
+    </footer>
+  </div>
+
+  <dialog class="dialog" id="settingsDialog" aria-labelledby="settingsTitle">
+    <form method="dialog" id="settingsForm">
+      <h2 id="settingsTitle">System prompt</h2>
+      <p class="muted">Sets the assistant's persona and rules. Saved in this browser and applied to every message.</p>
+      <label for="systemPrompt" class="visually-hidden">System prompt</label>
+      <textarea id="systemPrompt" rows="7"></textarea>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-ghost" id="resetPromptBtn">Reset to default</button>
+        <span class="spacer"></span>
+        <button type="submit" value="cancel" class="btn btn-ghost">Cancel</button>
+        <button type="submit" value="save" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script src="{{ url_for('static', filename='js/chat.js') }}" defer></script>
+</body>
+</html>
