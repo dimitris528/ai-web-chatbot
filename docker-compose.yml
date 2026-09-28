@@ -1,0 +1,15 @@
+services:
+  chatbot:
+    build: .
+    image: ai-web-chatbot:latest
+    ports:
+      - "8000:8000"
+    env_file: .env
+    environment:
+      APP_ENV: production
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true

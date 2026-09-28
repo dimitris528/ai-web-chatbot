@@ -1,0 +1,16 @@
+# One-click deploy on Render (https://render.com/docs/blueprint-spec)
+services:
+  - type: web
+    name: ai-web-chatbot
+    runtime: docker
+    plan: free
+    healthCheckPath: /healthz
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false        # prompted in the dashboard, never committed
+      - key: SECRET_KEY
+        generateValue: true
+      - key: APP_ENV
+        value: production
+      - key: GROQ_MODEL
+        value: openai/gpt-oss-120b
